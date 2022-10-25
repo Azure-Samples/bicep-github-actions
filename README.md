@@ -16,7 +16,7 @@ This is a sample repository that shows how to build GitHub Actions workflows to 
 
 ## Workflows
 
-1. [**Bicep Unit Tests**](.github/workflows/bicep-unit-tests.yml)
+1. [**Bicep Unit Tests**](.github/workflows/bicep-unit-test.yml)
     This workflow is designed to be run on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensure there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is able to be deployed.
 
 2. [**Bicep What-If / Deploy**](.github/workflows/bicep-whatif-deploy.yml)
