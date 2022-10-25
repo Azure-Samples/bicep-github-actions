@@ -1,7 +1,13 @@
-name: 'Bicep Check'
+name: 'Bicep Unit Tests'
 
+# We run on just PRs + main since this validate requires full read/write permissions to Azure and we can't do wildcards for the branch name in Azure OIDC federated credentials
 on:
   push:
+    branches:
+    - main  
+  pull_request:
+    branches:
+    - main
 
 env:
   LOCATION: "eastus"
@@ -12,8 +18,8 @@ permissions:
   contents: read
 
 jobs:
-  bicep-plan:
-    name: 'Bicep Check'
+  bicep-unit-tests:
+    name: 'Bicep Unit Tests'
     runs-on: ubuntu-latest
     # Bicep What-if / Validate functions also check if your role has permisisons to create the resources so we need full read/write permissions
     
