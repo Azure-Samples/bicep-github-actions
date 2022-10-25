@@ -1,0 +1,48 @@
+name: 'Bicep Check'
+
+on:
+  push:
+
+env:
+  LOCATION: "eastus"
+  
+#Special permissions required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  bicep-plan:
+    name: 'Bicep Check'
+    runs-on: ubuntu-latest
+    # Bicep What-if / Validate functions also check if your role has permisisons to create the resources so we need full read/write permissions
+    
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Authenticate to Az CLI using OIDC
+    - name: 'Az CLI login'
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Checks that all Bicep configuration files adhere to a canonical format
+    - name: Bicep Lint
+      uses: Azure/cli@v1
+      with:
+        inlineScript: az bicep build --file main.bicep
+        
+    # Validate whether a template is valid at subscription scope
+    - name: Bicep Validate
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+          az deployment sub validate \
+            --name validate-${{ github.run_id }} \
+            --template-file main.bicep \
+            --location $LOCATION 
+            
