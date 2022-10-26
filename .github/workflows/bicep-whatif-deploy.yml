@@ -76,7 +76,7 @@ jobs:
         echo "$WHATIF" >> $GITHUB_OUTPUT
         echo '```' >> $GITHUB_OUTPUT
         echo "</details>" >> $GITHUB_OUTPUT
-        echo "${delimiter}" >> $GITHUB_OUTPU
+        echo "${delimiter}" >> $GITHUB_OUTPUT
 
     # Publish Terraform Plan as task summary
     - name: Publish Whatif to Task Summary
