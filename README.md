@@ -17,7 +17,7 @@ This is a sample repository that shows how to use GitHub Actions workflows to ma
 ## Workflows
 
 1. [**Bicep Unit Tests**](.github/workflows/bicep-unit-tests.yml)
-    This workflow is designed to be run on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensure there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is deployable.
+    This workflow runs on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensures there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is deployable.
 
 2. [**Bicep What-If / Deploy**](.github/workflows/bicep-whatif-deploy.yml)
     This workflow runs on every pull request and on each commit to the main branch. The what-if stage of the workflow is used to understand the impact of the IaC changes on the Azure environment by running [what-if](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-what-if). This report is then attached to the PR for easy review. The deploy stage runs after the what-if analysis when the workflow is triggered by a push to the main branch. This stage will [deploy](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-create) the template to Azure after a manual review has signed off.
