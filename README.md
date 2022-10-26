@@ -17,17 +17,17 @@ This is a sample repository that shows how to use GitHub Actions workflows to ma
 ## Workflows
 
 1. [**Bicep Unit Tests**](.github/workflows/bicep-unit-tests.yml)
-    This workflow is designed to be run on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensure there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is able to be deployed.
+    This workflow is designed to be run on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensure there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is deployable.
 
 2. [**Bicep What-If / Deploy**](.github/workflows/bicep-whatif-deploy.yml)
     This workflow runs on every pull request and on each commit to the main branch. The what-if stage of the workflow is used to understand the impact of the IaC changes on the Azure environment by running [what-if](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-what-if). This report is then attached to the PR for easy review. The deploy stage runs after the what-if analysis when the workflow is triggered by a push to the main branch. This stage will [deploy](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-create) the template to Azure after a manual review has signed off.
 
 ## Getting Started
 
-To use these workflows in your environment several prerequiste steps are required:
+To use these workflows in your environment several prerequisite steps are required:
 
 1. **Create GitHub Environments**
-    The workflows utilizes GitHub Environments and Secrets to store the Azure identity information and setup an appoval process for deployments. Create an environment named `production` by following these [instructions](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment). On the `production` environment setup a protection rule and add any required approvers you want that need to sign off on production deployments. You can also limit the environment to your main branch. Detailed instructions can be found [here](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-protection-rules).
+    The workflows utilizes GitHub Environments and Secrets to store the Azure identity information and setup an approval process for deployments. Create an environment named `production` by following these [instructions](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment). On the `production` environment setup a protection rule and add any required approvers you want that need to sign off on production deployments. You can also limit the environment to your main branch. Detailed instructions can be found [here](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-protection-rules).
 
 2. **Setup Azure Identity**:
     An Azure Active Directory application is required that has permissions to deploy within your Azure subscription. Create a single application and give it the appropriate read/write permissions in your Azure subscription. Next setup the federated credentials to allow the GitHub to utilize the identity using OIDC. See the [Azure documentation](https://docs.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#use-the-azure-login-action-with-openid-connect) for detailed instructions. Three federated credentials will need to be added:
@@ -36,7 +36,7 @@ To use these workflows in your environment several prerequiste steps are require
       - Set Entity Type to `Branch` and use the `main` branch name.
     
 3. **Add GitHub Secrets**
-    _Note: While none of the data about the Azure identities contain any secrets or credentials we still utilize GitHub Secrets as a convenient means to paramaterize the identity information per environment._
+    _Note: While none of the data about the Azure identities contain any secrets or credentials we still utilize GitHub Secrets as a convenient means to parameterize the identity information per environment._
 
     Create the following secrets on the repository using the Azure identity:
 
