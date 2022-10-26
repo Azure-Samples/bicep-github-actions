@@ -1,6 +1,6 @@
 # GitHub Actions Workflows for Bicep
 
-This is a sample repository that shows how to build GitHub Actions workflows to manage infrastructure with Bicep. 
+This is a sample repository that shows how to use GitHub Actions workflows to manage Azure infrastructure with Bicep. 
 
 ## Architecture
 
@@ -27,7 +27,7 @@ This is a sample repository that shows how to build GitHub Actions workflows to 
 To use these workflows in your environment several prerequiste steps are required:
 
 1. **Create GitHub Environments**
-    The workflows utilizes GitHub Environments and secrets to store the azure identity information and setup an appoval process for deployments. Create an environment named `production` by following these [instructions](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment). On the `production` environment setup a protection rule and add any required approvers you want that need to sign off on production deployments. You can also limit the environment to your main branch. Detailed instructions can be found [here](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-protection-rules).
+    The workflows utilizes GitHub Environments and Secrets to store the Azure identity information and setup an appoval process for deployments. Create an environment named `production` by following these [instructions](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment#creating-an-environment). On the `production` environment setup a protection rule and add any required approvers you want that need to sign off on production deployments. You can also limit the environment to your main branch. Detailed instructions can be found [here](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-protection-rules).
 
 2. **Setup Azure Identity**:
     An Azure Active Directory application is required that has permissions to deploy within your Azure subscription. Create a single application and give it the appropriate read/write permissions in your Azure subscription. Next setup the federated credentials to allow the GitHub to utilize the identity using OIDC. See the [Azure documentation](https://docs.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#use-the-azure-login-action-with-openid-connect) for detailed instructions. Three federated credentials will need to be added:
@@ -40,9 +40,9 @@ To use these workflows in your environment several prerequiste steps are require
 
     Create the following secrets on the repository using the Azure identity:
 
-    - _AZURE_CLIENT_ID_ : The application (client) ID of the app registration in Azure
-    - _AZURE_TENANT_ID_ : The tenant ID of Azure Active Directory where the app registration is defined.
-    - _AZURE_SUBSCRIPTION_ID_ : The subscription ID where the app registration is defined.
+    - `AZURE_CLIENT_ID` : The application (client) ID of the app registration in Azure
+    - `AZURE_TENANT_ID` : The tenant ID of Azure Active Directory where the app registration is defined.
+    - `AZURE_SUBSCRIPTION_ID` : The subscription ID where the app registration is defined.
     
     Instructions to add the secrets to the repository can be found [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
 
