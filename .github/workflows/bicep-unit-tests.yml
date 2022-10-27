@@ -51,3 +51,19 @@ jobs:
             --name validate-${{ github.run_id }} \
             --template-file main.bicep \
             --location $LOCATION 
+
+    # Perform a security scan of the bicep code using checkov
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with: 
+        framework: bicep
+
+    # Upload results to GitHub Advanced Security
+    - name: Upload SARIF file
+      if: success() || failure()
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
+        category: checkov
+
