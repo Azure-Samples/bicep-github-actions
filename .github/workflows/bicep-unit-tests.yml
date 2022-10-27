@@ -59,6 +59,11 @@ jobs:
       with: 
         framework: bicep
 
+    - name: list
+      run: | 
+        ls -lh
+        cat results.sarif
+
     # Upload results to GitHub Advanced Security
     - name: Upload SARIF file
       if: success() || failure()
