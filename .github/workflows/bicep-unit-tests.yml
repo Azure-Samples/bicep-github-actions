@@ -15,7 +15,8 @@ env:
 #Special permissions required for OIDC authentication
 permissions:
   id-token: write
-  contents: write
+  contents: read
+  security-events: write
 
 jobs:
   bicep-unit-tests:
