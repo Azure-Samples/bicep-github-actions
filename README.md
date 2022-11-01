@@ -10,14 +10,14 @@ This is a sample repository that shows how to use GitHub Actions workflows to ma
 
 1. Create a new branch and check in the needed Bicep code modifications.
 2. Create a Pull Request (PR) in GitHub once you're ready to merge your changes into your environment.
-3. A GitHub Actions workflow will trigger to ensure your code is well formatted. In addition, a What-If analysis should run to generate a preview of the changes that will happen in your Azure environment.
+3. A GitHub Actions workflow will trigger to ensure your code is well formatted, internally consistent, and produces secure infrastructure. In addition, a What-If analysis should run to generate a preview of the changes that will happen in your Azure environment.
 4. Once appropriately reviewed, the PR can be merged into your main branch.
 5. Another GitHub Actions workflow will trigger from the main branch and execute the changes using Bicep.
 
 ## Workflows
 
 1. [**Bicep Unit Tests**](.github/workflows/bicep-unit-tests.yml)
-    This workflow runs on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensures there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is deployable.
+    This workflow runs on every commit and is composed of a set of unit tests on the infrastructure code. It runs [bicep build](https://docs.microsoft.com/cli/azure/bicep#az-bicep-build) to compile the bicep to an ARM template. This ensures there are no formatting errors. Next it performs a [validate](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-validate) to ensure the template is deployable. Lastly, [checkov](https://github.com/bridgecrewio/checkov), an open source static code analysis tool for IaC, will run to detect security and compliance issues. If the repository is utilizing GitHub Advanced Security (GHAS), the results will be uploaded to GitHub.
 
 2. [**Bicep What-If / Deploy**](.github/workflows/bicep-whatif-deploy.yml)
     This workflow runs on every pull request and on each commit to the main branch. The what-if stage of the workflow is used to understand the impact of the IaC changes on the Azure environment by running [what-if](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-what-if). This report is then attached to the PR for easy review. The deploy stage runs after the what-if analysis when the workflow is triggered by a push to the main branch. This stage will [deploy](https://docs.microsoft.com/cli/azure/deployment/sub#az-deployment-sub-create) the template to Azure after a manual review has signed off.
