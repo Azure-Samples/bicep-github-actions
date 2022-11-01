@@ -14,7 +14,8 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2021-05-01' = {
           destinationPortRange: '*'
           direction: 'Inbound'
           priority: 100
-          protocol: 'TCP'
+          // we can't match on * due to a bug with checkov: https://github.com/bridgecrewio/checkov/issues/3749
+          protocol: 'TCP' 
           sourceAddressPrefix: '*'
           sourcePortRange: '*'
         }
