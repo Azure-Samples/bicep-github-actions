@@ -11,8 +11,11 @@ This is a sample repository that shows how to use GitHub Actions workflows to ma
 1. Create a new branch and check in the needed Bicep code modifications.
 2. Create a Pull Request (PR) in GitHub once you're ready to merge your changes into your environment.
 3. A GitHub Actions workflow will trigger to ensure your code is well formatted, internally consistent, and produces secure infrastructure. In addition, a What-If analysis should run to generate a preview of the changes that will happen in your Azure environment.
-4. Once appropriately reviewed, the PR can be merged into your main branch.
-5. Another GitHub Actions workflow will trigger from the main branch and execute the changes using Bicep.
+
+   _⚠️ Warning: The what-if analysis may not properly display all changes if you are utilizing nested deployments or the reference function. See https://github.com/Azure/arm-template-whatif/issues/157._
+   
+5. Once appropriately reviewed, the PR can be merged into your main branch.
+6. Another GitHub Actions workflow will trigger from the main branch and execute the changes using Bicep.
 
 ## Workflows
 
@@ -47,4 +50,4 @@ To use these workflows in your environment several prerequisite steps are requir
     Instructions to add the secrets to the repository can be found [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
 
 ## Additional Resources
-A companion article detailing how to use GitHub Actions to deploy to Azure using IaC can be found at the [DevOps Resource Center](). `TODO: add link`
+A companion article detailing how to use GitHub Actions to deploy to Azure using IaC can be found at the [DevOps Resource Center](https://learn.microsoft.com/en-us/devops/deliver/iac-github-actions). 
