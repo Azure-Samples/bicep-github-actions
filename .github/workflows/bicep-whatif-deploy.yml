@@ -78,7 +78,7 @@ jobs:
         echo "</details>" >> $GITHUB_OUTPUT
         echo "${delimiter}" >> $GITHUB_OUTPUT
 
-    # Publish Terraform Plan as task summary
+    # Publish Whatif to task summary
     - name: Publish Whatif to Task Summary
       env:
         SUMMARY: ${{ steps.whatif-string.outputs.summary }}
