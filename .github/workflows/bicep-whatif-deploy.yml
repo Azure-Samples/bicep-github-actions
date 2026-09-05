@@ -25,11 +25,11 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
     # Authenticate to Az CLI using OIDC
     - name: 'Az CLI login'
-      uses: azure/login@v1
+      uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -37,13 +37,13 @@ jobs:
         
      # Checks that all Bicep configuration files adhere to a canonical format
     - name: Bicep Lint
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: az bicep build --file main.bicep
         
     # Validate whether a template is valid at subscription scope
     - name: Bicep Validate
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: |
           az deployment sub validate \
@@ -53,7 +53,7 @@ jobs:
 
     # Preview changes
     - name: "What-If"
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: |
           az deployment sub what-if \
@@ -88,7 +88,7 @@ jobs:
     # If this is a PR post the changes
     - name: Push Whatif Output to PR
       if: github.ref != 'refs/heads/main'
-      uses: actions/github-script@v6
+      uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
       env:
         SUMMARY: "${{ steps.whatif-string.outputs.summary }}"
       with:
@@ -113,11 +113,11 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
     # Authenticate to Az CLI using OIDC
     - name: 'Az CLI login'
-      uses: azure/login@v1
+      uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -125,7 +125,7 @@ jobs:
         
     # Deploy
     - name: "Bicep Deployment"
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: |
           az deployment sub create \
