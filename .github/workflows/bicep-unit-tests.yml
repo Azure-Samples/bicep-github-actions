@@ -27,11 +27,11 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
     # Authenticate to Az CLI using OIDC
     - name: 'Az CLI login'
-      uses: azure/login@v1
+      uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -39,13 +39,13 @@ jobs:
 
     # Checks that all Bicep configuration files adhere to a canonical format
     - name: Bicep Lint
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: az bicep build --file main.bicep
         
     # Validate whether a template is valid at subscription scope
     - name: Bicep Validate
-      uses: Azure/cli@v1
+      uses: Azure/cli@4db43908b9df2e7ac93c8275a8f9a448c59338dd # v1.0.9
       with:
         inlineScript: |
           az deployment sub validate \
@@ -56,14 +56,14 @@ jobs:
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
       id: checkov
-      uses: bridgecrewio/checkov-action@master
+      uses: bridgecrewio/checkov-action@99bb2caf247dfd9f03cf984373bc6043d4e32ebf # v12.1347.0
       with: 
         framework: bicep
 
     # Upload results to GitHub Advanced Security
     - name: Upload SARIF file
       if: success() || failure()
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@b8d3b6e8af63cde30bdc382c0bc28114f4346c88 # v2.28.1
       with:
         sarif_file: results.sarif
         category: checkov
